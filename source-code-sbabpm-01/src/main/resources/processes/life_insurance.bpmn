@@ -11,20 +11,30 @@
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow2" sourceRef="usertask1" targetRef="exclusivegateway1"></sequenceFlow>
     <endEvent id="endevent1" name="End"></endEvent>
-    <sequenceFlow id="flow3" name="Information incorrect" sourceRef="exclusivegateway1" targetRef="endevent1"></sequenceFlow>
-    <userTask id="usertask2" name="Under writter task" activiti:candidateGroups="UNDER_WRITER" activiti:formKey="UNDER_WEITER_TASK"></userTask>
+    <sequenceFlow id="flow3" name="Information incorrect" sourceRef="exclusivegateway1" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isApplicableForInsurance==false}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="usertask2" name="Under writter task" activiti:candidateGroups="UNDER_WRITER" activiti:formKey="UNDER_WEITER_TASK">
+      <extensionElements>
+        <activiti:taskListener event="complete" delegateExpression="${underWritterTaskComplete}"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow4" name="Applicable for Insurance" sourceRef="exclusivegateway1" targetRef="usertask2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isApplicableForInsurance}]]></conditionExpression>
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow5" sourceRef="usertask2" targetRef="exclusivegateway2"></sequenceFlow>
-    <sequenceFlow id="flow6" name="Under Writer Reject task" sourceRef="exclusivegateway2" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow6" name="Under Writer Reject task" sourceRef="exclusivegateway2" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isUnderWritterApproved==false}]]></conditionExpression>
+    </sequenceFlow>
     <parallelGateway id="parallelgateway1" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow7" name="Send for More Clearification" sourceRef="exclusivegateway2" targetRef="parallelgateway1">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${amount>10000}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sumAssuredAmount>100000}]]></conditionExpression>
     </sequenceFlow>
     <endEvent id="endevent2" name="End"></endEvent>
-    <sequenceFlow id="flow8" name="Approved By Under Writter" sourceRef="exclusivegateway2" targetRef="endevent2"></sequenceFlow>
+    <sequenceFlow id="flow8" name="Approved By Under Writter" sourceRef="exclusivegateway2" targetRef="endevent2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isUnderWritterApproved==true}]]></conditionExpression>
+    </sequenceFlow>
     <userTask id="usertask3" name="Risk Management" activiti:candidateGroups="RM" activiti:formKey="RISK_MANAGEMENT"></userTask>
     <sequenceFlow id="flow9" sourceRef="parallelgateway1" targetRef="usertask3"></sequenceFlow>
     <userTask id="usertask4" name="Higher Authority" activiti:async="true" activiti:candidateGroups="HA" activiti:formKey="HIGHER_AUTHORITY_TASK"></userTask>

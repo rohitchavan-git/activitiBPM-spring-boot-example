@@ -2,6 +2,8 @@ package com.rohit.activiti.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,6 +29,8 @@ public class Insurance {
 	private Double sumAssuredAmount;
 	@Column(name = "process_insrance_id")
 	private String processInstanceId;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status")
 	private InsuranceStatus status;
 
 	public Insurance() {
