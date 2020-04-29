@@ -11,6 +11,7 @@ public class WorkFlowConstants {
 		public static final String PRODUCT = "product";
 		public static final String PREMIUM_AMOUNT = "premiumAmount";
 		public static final String SUM_ASSURED_AMOUNT = "sumAssuredAmount";
+		public static final String STATUS ="status";
 	};
 
 }

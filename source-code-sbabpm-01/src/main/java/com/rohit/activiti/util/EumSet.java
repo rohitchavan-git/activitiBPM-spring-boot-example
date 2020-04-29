@@ -7,6 +7,7 @@ public class EumSet {
 		APPROVED_BY_SCRUT,
 		SEND_FOR_CLEARIFICATION,
 		APPROVED,
+		APPROVED_BYRMHA,
 		NOT_APPROVED;
 	};
 	public enum EmployeeType{

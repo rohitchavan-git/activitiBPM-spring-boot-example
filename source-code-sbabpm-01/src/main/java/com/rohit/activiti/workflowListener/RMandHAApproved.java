@@ -7,23 +7,17 @@ import org.springframework.stereotype.Component;
 
 import com.rohit.activiti.util.WorkFlowConstants;
 
-@Component("completeTaskListenerDelegateForVarificationTask")
-public class VarifiationTaskListener implements TaskListener {
+@Component("RMandHAApproved")
+public class RMandHAApproved implements TaskListener {
 
 	private static final long serialVersionUID = 1L;
 
+	
 	@Override
 	public void notify(DelegateTask delegateTask) {
-
+		
 		DelegateExecution execution = delegateTask.getExecution();
-		String product = (String) execution.getVariable(WorkFlowConstants.ProcessVariables.PRODUCT);
-
-		if (product.equals("TV")) {
-			// execution.createVariableLocal("isDrbApplicable", true);
-			execution.setTransientVariableLocal("isApplicableForInsurance", true);
-		} else {
-			execution.setTransientVariableLocal("isApplicableForInsurance", false);
-		}
+		execution.setVariable(WorkFlowConstants.ProcessVariables.STATUS, "ApprovedBYRMHA");
 	}
 
 }

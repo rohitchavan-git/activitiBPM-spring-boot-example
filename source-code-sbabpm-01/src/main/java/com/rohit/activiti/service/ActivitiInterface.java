@@ -1,22 +1,18 @@
 package com.rohit.activiti.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.task.Task;
 
-import com.rohit.activiti.entity.Insurance;
-
 
 public interface ActivitiInterface {
-	String startNewProcess(String processName,Insurance insurance);
+	String startNewProcess(String processName,Map<String,Object> processVariable);
 
-	List<Object> getTasksByUser(String username);
-	
 	List<Task> getTaskPoolByUserRoll(String userType);
 
 	void completeTask(String taskId);
 
 	void claimTask(String taskId);
 
-	boolean checkInstanceStatus(String processInstanceId);
 }
